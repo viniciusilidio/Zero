@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Gerenciamento\GerJogo.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Interface\Interface.cs" Line="10" Column="3" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerArquivo.cs" Line="19" Column="3" />
+      <File FileName="Assets\Scripts\Armazenamento\Missao.cs" Line="11" Column="3" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerJogo.cs" Line="65" Column="5" />
+      <File FileName="Assets\Scripts\Interface\MostrarPontos.cs" Line="28" Column="47" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerBotao.cs" Line="158" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

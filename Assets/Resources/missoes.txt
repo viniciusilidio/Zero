@@ -1,0 +1,25 @@
+Esta missão está completa
+Maior valor absoluto
+Funda um <b><color=#3654c0ff>+{0}</color></b> a um <b><color=#c05436ff>-{0}</color></b> para habilitar os blocos de valor <b><color=#ffff00ff>{1:0}</color></b>
+Missão completa! Maior valor de blocos agora é <b><color=#ffff00ff>{0:0}</color></b>!
+zerar
+0 4 8 16 32 64 128 256 512
+1 2 3 4 5 6 7 8 9
+Intervalo blocos
+Crie um bloco de valor absoluto de <b><color=#00ffffff>{0}</color></b> ou mais para reduzir o tempo para <b><color=#ffff00ff>{1:0.0}</color></b> segundo(s)
+Missão completa! Intervalo dos blocos agora é de <b><color=#ffff00ff>{0:0.0}</color></b> segundo(s)!
+bloco
+0 100 1000 10000 100000 1000000
+5 4.5 4 3.5 3 2.5
+Criar blocos
+Consiga um placar de <b><color=#00ffffff>{0}</color></b> ou mais para aumentar as chances para <b><color=#ffff00ff>{1:0}%</color></b>
+Missão completa! Chance de criar blocos subiu para <b><color=#ffff00ff>{0:0}%</color></b>!
+placar
+0 10 100 1000 10000 100000 1000000 10000000
+10 15 20 25 30 35 40 45
+Criar multiplicador
+Crie um bloco multiplicador de <b><color=#36c054ff>x{0}</color></b> ou maior para aumentar a chance para <b><color=#ffff00ff>{1:0}%</color></b>
+Missão completa! Chance de criar multiplicador subiu para <b><color=#ffff00ff>{0:0}%</color></b>!
+multiplicador
+0 10 100 1000 10000 100000 1000000 10000000 100000000
+5 6 7 8 9 10 11 12 15

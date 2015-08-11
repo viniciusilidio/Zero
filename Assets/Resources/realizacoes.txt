@@ -1,0 +1,210 @@
+Hello World!
+Faça seu primeiro ponto.
+placar
+1
+5
+Nota 10.
+Funda um +10 a um -10.
+fundir
+10 -10
+5
+Shelly Likes.
+Tenha um placar de exatos 73 pontos.
+exatoplacar
+73
+5
+Sem 100, 100 sem!
+Funda um +100 a um -100.
+fundir
+100 -100
+10
+100 dobrar.
+Crie um bloco de valor 100, sem usar multiplicadores.
+naomultiplicar
+100
+10
+This is Sparta!
+Crie o bloco +300.
+bloco
+300
+10
+This was Sparta!
+Funda um +300 com um -300.
+fundir
++300 -300
+10
+Zero Absoluto.
+Crie o bloco -273.
+bloco
+-273
+10
+Error, page not found!
+Tenha um placar de exatos 404 pontos.
+exatoplacar
+404
+10
+Menos mal...
+Crie o bloco -666.
+bloco
+-666
+15
+Marra Mil!
+Funda um +1000 a um -1000.
+fundir
+1000 -1000
+15
+1 Kilobyte de pura maldade.
+Crie um bloco com o valor 1024.
+absolutobloco
+1024
+15
+Quebrando a barreira do som.
+Funda um +1224 a um -1224.
+fundir
+1224 -1224
+15
+Acabou o mundo?
+Crie o bloco +2012.
+bloco
+2012
+15
+Você está perdido?
+Tenha os blocos de valor 4, 8, 15, 16, 23 e 42 ao mesmo tempo no cenário.
+varios
+4 8 15 16 23 42
+20
+2048 sem vencer.
+Funda um +2048 a um -2048.
+fundir
+2048 -2048
+20
+De volta para o futuro!
+Tenha os blocos de valor 5, 11 e 1995 ao mesmo tempo no cenário.
+varios
+5 11 1995
+20
+Em busca da resposta.
+Joge por um total de 42 minutos.
+tempo
+2520
+20
+I WANNA ROCK!
+Tenha os blocos de valor 13, 7, 1985 ao mesmo tempo no cenário.
+varios
+13 7 1985
+20
+São tantas respostas...
+Tenha 10 blocos de valor 42 ao mesmo tempo no cenário.
+varios
+42 42 42 42 42 42 42 42 42 42
+25
+Ao dia da Toalha.
+Tenha os blocos de valor 25, 5 e 2001 ao mesmo tempo no cenário.
+varios
+25 5 2001
+25
+Um novo dia!
+Funda os blocos +2359 e -2359.
+fundir
+2359 -2359
+25
+Over 9000!
+Crie um bloco de valor maior que nove mil.
+maiorque
+9000
+25
+Quer quer ser um milinário?
+Tenha um placar de exatos 1 000 000 pontos.
+exatoplacar
+1000000
+25
+1 Megabyte.
+Crie um bloco de valor 1 048 576.
+absolutobloco
+1048576
+25
+Acabaram os dinossaros.
+Funda um bloco +65 000 a um -65 000.
+fundir
+65000 -65000
+25
+Alcançando o jogo mais vendido.
+Tenha um placar de exatos 70 000 pontos.
+exatoplacar
+70000
+25
+Voltando da Lua!
+Crie o bloco -384 400.
+bloco
+-384400
+25
+Mais rápido que a luz.
+Conquiste um placar maior que 299 792 458 pontos.
+placar
+299762459
+30
+Paciência, paciẽncia.
+Crie um bloco de valor 123 456 789.
+absolutobloco
+123456789
+30
+Ao Infinito, e não tão além...
+Crie um bloco de valor 1 bilhão.
+absolutobloco
+1000000000
+30
+Malditos painéis limitados!
+Resete o placar uma vez.
+zerar
+1
+30
+Tantas vitórias 2048.
+Tenha 10 blocos de valor 2048 ao mesmo tempo no cenário.
+varios
+2048 2048 2048 2048 2048 2048 2048 2048 2048 2048
+30
+Muito perto do Sol.
+Funda os blocos +149 600 000 e -149 600 000.
+fundir
+149600000 -149600000
+35
+Infinito tende a 1.
+Funda um bloco de valor 1bi a um 999 999 999 para conseguir um de valor 1.
+indiferentefundir
+1000000000 999999999 1
+35
+O placar irá resetar...
+Tenha um placar de exatos 999 999 999 pontos.
+exatoplacar
+999999999
+35
+Você está jogando demais...
+Joge por um total de 10 horas.
+tempo
+36000
+40
+Missão completa!
+Complete todas as missões do jogo.
+completarmissoes
+1
+50
+Número 23.
+Resete o placar 23 vezes.
+zerar
+23
+50
+Challenge Accepted!
+Crie um bloco de valor 999 999 999 sem usar multiplicadores.
+naomultiplicar
+999999999
+55
+A Resposta!
+Resete o placar 42 vezes.
+zerar
+42
+70
+You're the champion, my friend.
+Complete todos os desafios.
+resposta
+1
+5
