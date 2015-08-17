@@ -2,7 +2,7 @@
 
 # Repositório para finalizarmos a priemira vesão(open beta) do ZERO #
 
-Membros:
+Membros
 -andre tonelli
 -Jeferson Tomazella
 -Ilidio Vinícius
