@@ -3,9 +3,9 @@
 # Repositório para finalizarmos a priemira vesão(open beta) do ZERO #
 
 Membros:
-  -andre tonelli
-  -Jeferson Tomazella
-  -Ilidio Vinícius
+-andre tonelli
+-Jeferson Tomazella
+-Ilidio Vinícius
 
 Fazer
 
