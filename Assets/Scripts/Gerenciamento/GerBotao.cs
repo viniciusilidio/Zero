@@ -250,6 +250,12 @@ public class GerBotao : MonoBehaviour
 
 	public void Carregar()
 	{
+		if (Dados.tutorialCompleto == false &&
+		    Tutorial.podeInteragirBlocos == false)
+		{
+			return;
+		}
+
 		//Utilidade.DebugMensagem ("Começou a carregar");
 		Transform pai = transform.parent;
 		transform.SetParent(null);
@@ -260,6 +266,12 @@ public class GerBotao : MonoBehaviour
 
 	public void Mover()
 	{
+		if (Dados.tutorialCompleto == false &&
+		    Tutorial.podeInteragirBlocos == false)
+		{
+			return;
+		}
+
 		transform.position = Input.mousePosition;
 
 		// Usar este, caso o canvas esteja para a câmera
@@ -274,6 +286,12 @@ public class GerBotao : MonoBehaviour
 
 	public void Soltar()
 	{
+		if (Dados.tutorialCompleto == false &&
+		    Tutorial.podeInteragirBlocos == false)
+		{
+			return;
+		}
+
 		//Utilidade.DebugMensagem ("Soltou");
 		GerJogo.SoltarObjeto(GetComponent<GerBotao>());
 	}

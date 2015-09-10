@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Dados
 {
+	// Tutorial
+	public static bool tutorialCompleto = false;
+
 	// Armazenamento
 	public static string nomeArquivo = "dados";
 	public static string nomeVersaoSalvar = "versao";

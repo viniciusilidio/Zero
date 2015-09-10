@@ -284,7 +284,7 @@ public class Realizacao
 		return completa;
 	}
 
-	void Completou()
+	public void Completou()
 	{
 		dataCompleto = System.DateTime.Now;
 		completa = true;

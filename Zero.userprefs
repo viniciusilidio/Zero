@@ -1,11 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Indies VS Gamers\Assets\Scripts\ControleTorre.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Gerenciamento\GerJogo.cs">
     <Files>
-      <File FileName="..\Indies VS Gamers\Assets\Scripts\Musica.cs" Line="27" Column="26" />
-      <File FileName="..\Indies VS Gamers\Assets\Scripts\GerenciamentoJogo.cs" Line="318" Column="5" />
-      <File FileName="..\Indies VS Gamers\Assets\Scripts\Dados.cs" Line="19" Column="34" />
-      <File FileName="..\Indies VS Gamers\Assets\Scripts\ControleTorre.cs" Line="146" Column="3" />
+      <File FileName="Assets\Scripts\Gerenciamento\Tutorial.cs" Line="475" Column="29" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerJogo.cs" Line="867" Column="37" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerMensagens.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Armazenamento\Dados.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Armazenamento\Realizacao.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Gerenciamento\GerArquivo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Armazenamento\Missao.cs" Line="25" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

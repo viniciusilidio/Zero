@@ -34,6 +34,8 @@ public class GerMensagens : MonoBehaviour
 	//static GameObject teoEstatico;
 	static Animator teoAnimator;
 
+	static Animator	textoAnimator;
+
 	static List<string> mensagens = new List<string>();
 	static List<Sprite> imagens = new List<Sprite>();
 
@@ -59,6 +61,9 @@ public class GerMensagens : MonoBehaviour
 		textoPainelMensagemEstatico = painelMensagemEstatico
 			.GetComponentInChildren<Text>();
 		alfaTexto = textoPainelMensagemEstatico.color.a;
+
+		textoAnimator = textoPainelMensagemEstatico.
+			GetComponent<Animator>();
 
 		imagemPainelMensagemEstatico = painelMensagemEstatico.
 			transform.GetComponentInChildren<Image>();
@@ -180,6 +185,8 @@ public class GerMensagens : MonoBehaviour
 
 	static void MostrarProxima()
 	{
+		textoAnimator.Play("Aparecer");
+
 		textoPainelMensagemEstatico.text = mensagens[0];
 
 		imagemPainelMensagemEstatico.enabled = true;
