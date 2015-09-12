@@ -57,5 +57,16 @@ public class MostrarConfig : MonoBehaviour
 		VerificarMusica();
 		EfeitosSonoros.Tocar();
 	}
+
+	public void Tutorial()
+	{
+		GerJogo.FazerTutorial();
+	}
+
+	public void TutorialMenu()
+	{
+		Dados.refazerTutorial = true;
+		Application.LoadLevel(Constantes.telaJogo);
+	}
 }
 

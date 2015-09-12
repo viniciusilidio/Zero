@@ -187,7 +187,7 @@ public class GerMensagens : MonoBehaviour
 	{
 		textoAnimator.Play("Aparecer");
 
-		textoPainelMensagemEstatico.text = mensagens[0];
+		textoPainelMensagemEstatico.text = mensagens[0].ToUpper();
 
 		imagemPainelMensagemEstatico.enabled = true;
 

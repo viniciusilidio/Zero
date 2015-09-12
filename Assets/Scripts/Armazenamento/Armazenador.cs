@@ -40,7 +40,9 @@ public class Armazenador
 		Dados.pontosAtuais			= int.Parse(dados[indiceAtual + 1]);
 		Dados.quantidadeDeResets	= ulong.Parse(dados[indiceAtual + 2]);
 		Dados.pontosTotaisReais 	= ulong.Parse(dados[indiceAtual + 3]);
-		indiceAtual += 4;
+		Dados.tutorialCompleto		= bool.Parse(dados[indiceAtual + 4]);
+
+		indiceAtual += 5;
 
 		// Objetos no cenário
 		objts = int.Parse(dados[indiceAtual]) * 3;
@@ -54,6 +56,7 @@ public class Armazenador
 			int pos = int.Parse(dados[indiceAtual + 2]);
 			
 			GerJogo.AdicionarNaGrade(tipo, valor, pos);
+			//Debug.Log ("Tipo "+tipo + ", Valor "+valor + ", pos "+pos );
 			indiceAtual += 3;
 		}
 
@@ -117,14 +120,26 @@ public class Armazenador
 		dados += divisor + Dados.pontosAtuais;
 		dados += divisor + Dados.quantidadeDeResets;
 		dados += divisor + Dados.pontosTotaisReais;
+		dados += divisor + Dados.tutorialCompleto;
 
+
+		//Debug.Log("Salvando blocos...");
 		// Objetos no cenário
-		dados += divisor + GerJogo.objetos.Count;
+		dados += divisor + GerJogo.PosicoesOcupadas();
 		foreach(GerBotao bloco in GerJogo.objetos)
 		{
+			if (bloco == null) continue;
+
 			dados += divisor + bloco.valor + divisor + 
 				((int)bloco.tipo) + divisor + bloco.posicaoGrade;
+
+			/*
+			Debug.Log ("Tipo "+((int)bloco.tipo) +
+			           ", Valor "+bloco.valor +
+			           ", pos "+bloco.posicaoGrade );
+			//*/
 		}
+		//Debug.Log("Blocos salvos!");
 
 		// Missões
 		dados += divisor + Dados.missoes.Count;

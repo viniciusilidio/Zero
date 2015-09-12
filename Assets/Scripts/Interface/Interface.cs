@@ -9,6 +9,7 @@ public class Interface : MonoBehaviour
 	public GameObject painelDebug;
 	public GameObject painelRealizacoes;
 	public GameObject painelPlacar;
+	public GameObject painelCreditos;
 
 	static bool podeTocar = false;
 
@@ -20,6 +21,7 @@ public class Interface : MonoBehaviour
 		FecharDebug();
 		FecharRealizacoes();
 		FecharPlacar();
+		FecharCreditos();
 		podeTocar = true;
 	}
 
@@ -35,7 +37,11 @@ public class Interface : MonoBehaviour
 	{
 		if (podeTocar)
 			EfeitosSonoros.Tocar();
-		GerJogo.Limpar();
+
+
+		GerJogo.Salvar();
+		//GerJogo.Limpar();
+
 		Application.LoadLevel(Constantes.telaMenu);
 	}
 
@@ -141,6 +147,26 @@ public class Interface : MonoBehaviour
 			if (podeTocar)
 				EfeitosSonoros.Tocar();
 			painelDebug.SetActive(false);
+		}
+	}
+
+	public void AbrirCreditos()
+	{
+		if (painelCreditos)
+		{
+			if (podeTocar)
+				EfeitosSonoros.Tocar();
+			painelCreditos.SetActive(true);
+		}
+	}
+	
+	public void FecharCreditos()
+	{
+		if (painelCreditos)
+		{
+			if (podeTocar)
+				EfeitosSonoros.Tocar();
+			painelCreditos.SetActive(false);
 		}
 	}
 }

@@ -6,15 +6,17 @@ public class Dados
 {
 	// Tutorial
 	public static bool tutorialCompleto = false;
+	public static bool refazerTutorial = false;
 
 	// Armazenamento
 	public static string nomeArquivo = "dados";
 	public static string nomeVersaoSalvar = "versao";
-	public static string versaoSalvar = "1.1";
+	public static string versaoSalvar = "2.6";
 
 	// Tempo
 	public static ulong tempoTotalDeJogo = 0;
 	public static float tempoAtualDeJogo = 0;
+	public static float tempoAnteriorDeJogo = 0;
 
 	// Pontuação
 	public static ulong pontosTotaisReais = 0;

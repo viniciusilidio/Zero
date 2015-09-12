@@ -39,19 +39,20 @@ public class GerArquivo
 		string [] divisor = {"\r\n","\n\r","\n","\r"};
 		string [] linhas = texto.text.ToUpper().Split(
 			divisor, System.StringSplitOptions.None);
+
 		
-		int qtdPorMissao = 6;
-		int quantidade = linhas.Length / qtdPorMissao;
+		int qtdPorMissao = 7;
+		int quantidade = (linhas.Length - 2) / qtdPorMissao;
 
 		Dados.textoMissaoCompleta = linhas[0];
 
 		for (int i = 0; i < quantidade; i++)
 		{
-			if (string.IsNullOrEmpty(linhas[i])){
+			if (string.IsNullOrEmpty(linhas[i*qtdPorMissao+2])){
 				continue;
 			}
 
-			int ind		 		= i * qtdPorMissao + 1;
+			int ind		 		= i * qtdPorMissao + 2;
 
 			string titulo 		= linhas[ind];
 			string descricao	= linhas[ind + 1];
@@ -74,6 +75,7 @@ public class GerArquivo
 					titulo, descricao, mensagem, tipo, entr, sai);
 
 			missoes.Add(missao);
+			//missao.Imprimir();
 		}
 
 		//Crie um bloco multiplicador de <b><color=#36c054ff>x{0}>/color></b> ou maior para aumentar a chance para <b><color=#ffff00ff>{1:0}%</color></b>
@@ -99,12 +101,12 @@ public class GerArquivo
 		string [] linhas = texto.text.ToUpper().Split(
 			divisor, System.StringSplitOptions.None);
 
-		int qtdPorMissao = 5;
+		int qtdPorMissao = 6;
 		int quantidade = linhas.Length / qtdPorMissao;
 
 		for (int i = 0; i < quantidade; i++)
 		{
-			if (string.IsNullOrEmpty(linhas[i])){
+			if (string.IsNullOrEmpty(linhas[i*qtdPorMissao])){
 				continue;
 			}
 

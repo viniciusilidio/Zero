@@ -49,7 +49,9 @@ public class Tutorial : MonoBehaviour
 	public static bool podeInteragirBlocos = false;
 	public static bool podeMostrarConquista = false;
 
-	void Awake ()
+	bool pronto = false;
+
+	public void Comecar ()
 	{
 		if (Dados.tutorialCompleto)
 		{
@@ -77,11 +79,13 @@ public class Tutorial : MonoBehaviour
 
 		proximoTempo = tempoAparecer + Time.time;
 		tempoClicar = Time.time;
+
+		pronto = true;
 	}
 	
 	void Update ()
 	{
-		if (Dados.tutorialCompleto) return;
+		if (Dados.tutorialCompleto || pronto == false) return;
 
 		if (aparecendo) {
 			if (Time.time > proximoTempo) {
@@ -120,7 +124,7 @@ public class Tutorial : MonoBehaviour
 		}
 		else if (esperandoJuntar && passoAtual < 10)
 		{
-			if (GerJogo.objetos.Count == 0)
+			if (GerJogo.PosicoesOcupadas() == 0)
 			{
 				esperandoJuntar = false;
 				podeInteragirBlocos = false;
@@ -150,9 +154,9 @@ public class Tutorial : MonoBehaviour
 					ProximoPasso();
 				}
 			}
-			else if (GerJogo.objetos.Count > 0)
+			else if (GerJogo.PosicoesOcupadas() > 0)
 			{
-				if (GerJogo.objetos.Count == 1)
+				if (GerJogo.PosicoesOcupadas() == 1)
 				{
 					esperandoJuntar = false;
 					podeInteragirBlocos = false;
@@ -169,7 +173,7 @@ public class Tutorial : MonoBehaviour
 		}
 		else if (esperandoJuntar && passoAtual == 18)
 		{
-			if (GerJogo.objetos.Count == 0)
+			if (GerJogo.PosicoesOcupadas() == 0)
 			{
 				esperandoJuntar = false;
 				podeInteragirBlocos = false;
@@ -233,6 +237,7 @@ public class Tutorial : MonoBehaviour
 		GerJogo.GuardarCenario();
 		podeClicar = false;
 		teo.SetActive(true);
+		texto.text = texto.text.ToUpper();
 		teoAnimator.Play("Aparecer");
 		proximoTempo = Time.time + tempoAteFalar;
 		aparecendo = true;
@@ -261,7 +266,7 @@ public class Tutorial : MonoBehaviour
 	void CriarBloco()
 	{
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [1];
+		texto2.text = mensagens [1].ToUpper();
 		Falar();
 		GerJogo.AdicionarNaGrade(1,1,0);
 		proximoTempo = Time.time + 1.5f;
@@ -270,7 +275,7 @@ public class Tutorial : MonoBehaviour
 	void AparecerBlocoPositivo()
 	{
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [2];
+		texto2.text = mensagens [2].ToUpper();
 		Falar();
 		proximoTempo = Time.time + 3;
 	}
@@ -279,7 +284,7 @@ public class Tutorial : MonoBehaviour
 	{
 		GerJogo.AdicionarNaGrade(2,-1,15);
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [3];
+		texto2.text = mensagens [3].ToUpper();
 		Falar();
 		proximoTempo = Time.time + 3;
 	}
@@ -288,7 +293,7 @@ public class Tutorial : MonoBehaviour
 	{
 		esperandoJuntar = true;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [4];
+		texto2.text = mensagens [4].ToUpper();
 		Falar();
 		podeInteragirBlocos = true;
 		proximoTempo = tempoRastro + Time.time;
@@ -297,7 +302,7 @@ public class Tutorial : MonoBehaviour
 	void MostrarPontos()
 	{
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [5];
+		texto2.text = mensagens [5].ToUpper();
 		Falar();
 		painelContador.SetActive(true);
 		proximoTempo = Time.time + 1;
@@ -317,7 +322,7 @@ public class Tutorial : MonoBehaviour
 		texto2.text = "";
 		//texto.gameObject.SetActive (true);
 		texto.enabled = true;
-		texto.text = mensagens [6];
+		texto.text = mensagens [6].ToUpper();
 		texto.GetComponent<Animator>().Play("Reduzir");
 		texto.GetComponent<Animator>().Play("Aparecer");
 		Falar();
@@ -354,7 +359,7 @@ public class Tutorial : MonoBehaviour
 		podeInteragirBlocos = true;
 		//btRealizacoes.SetActive(false);
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [7];
+		texto2.text = mensagens [7].ToUpper();
 		Falar();
 		GerJogo.AdicionarNaGrade(1,1,15);
 		GerJogo.AdicionarNaGrade(1,1,0);
@@ -366,7 +371,7 @@ public class Tutorial : MonoBehaviour
 		esperandoJuntar = true;
 		podeInteragirBlocos = true;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [8];
+		texto2.text = mensagens [8].ToUpper();
 		Falar();
 		gerJogo.AdicionarBotaoMulti();
 		proximoTempo = tempoRastro + Time.time;
@@ -385,7 +390,7 @@ public class Tutorial : MonoBehaviour
 		esperandoJuntar = true;
 		podeInteragirBlocos = true;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [9];
+		texto2.text = mensagens [9].ToUpper();
 		Falar();
 		GerJogo.AdicionarNaGrade(2,-1,3);
 		GerJogo.AdicionarNaGrade(2,-1,12);
@@ -397,7 +402,7 @@ public class Tutorial : MonoBehaviour
 		esperandoJuntar = true;
 		podeInteragirBlocos = true;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [10];
+		texto2.text = mensagens [10].ToUpper();
 		Falar();
 		gerJogo.AdicionarBotaoMulti();
 		proximoTempo = tempoRastro + Time.time;
@@ -409,7 +414,7 @@ public class Tutorial : MonoBehaviour
 		esperandoJuntar = true;
 		podeInteragirBlocos = true;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [11];
+		texto2.text = mensagens [11].ToUpper();
 		Falar();
 		gerJogo.AdicionarBotao(+4);
 		proximoTempo = tempoRastro + Time.time;
@@ -422,7 +427,7 @@ public class Tutorial : MonoBehaviour
 		texto2.text = "";
 		//texto.gameObject.SetActive (true);
 		texto.enabled = true;
-		texto.text = mensagens [12];
+		texto.text = mensagens [12].ToUpper();
 		//texto.GetComponent<Animator>().Play("Reduzir");
 		texto.GetComponent<Animator>().Play("Aparecer");
 		Falar();
@@ -453,7 +458,7 @@ public class Tutorial : MonoBehaviour
 		texto.text = "";
 		texto.enabled = false;
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [13];
+		texto2.text = mensagens [13].ToUpper();
 		Falar();
 		proximoTempo = Time.time + 3;
 	}
@@ -461,7 +466,7 @@ public class Tutorial : MonoBehaviour
 	void FalaFinal()
 	{
 		textoAnimator.Play ("Aparecer");
-		texto2.text = mensagens [14];
+		texto2.text = mensagens [14].ToUpper();
 		Falar();
 		proximoTempo = Time.time + 2;
 	}
@@ -471,7 +476,6 @@ public class Tutorial : MonoBehaviour
 		btConfig.SetActive(true);
 		btConfig.GetComponent<Animator>().Play("Aparecer");
 		painelContador.SetActive(true);
-		//Utilidade.DebugMensagem("Fim do tutorial.");
 		GerJogo.RecuperarCenario();
 		Destruir();
 	}
@@ -496,16 +500,64 @@ public class Tutorial : MonoBehaviour
 	{
 		PararDeFalar();
 		Dados.tutorialCompleto = true;
-		Destroy(gameObject);
+		gameObject.SetActive(false);
+		//Destroy(gameObject);
+	}
+
+
+	Transform pini = null;
+	Transform pfim = null;
+	void AjeitarPs()
+	{
+		int bt = 0;
+		foreach(GerBotao b in GerJogo.objetos)
+		{
+			if (b != null)
+			{
+				if (bt == 0)
+				{
+					bt = 1;
+					pini = b.transform;
+				}
+				else
+				{
+					pfim = b.transform;
+					break;
+				}
+			}
+		}
 	}
 
 	void CriarRastro()
 	{
+		AjeitarPs();
+
+		if (pini == null || pfim == null)
+		{
+			return;
+		}
+
 		GameObject ras = Instantiate<GameObject>(rastro);
-		Transform ini = GerJogo.objetos[0].transform;
-		Transform fim = GerJogo.objetos[1].transform;
 		ras.GetComponent<GerRastro>().
-			CriarRastroTutorial(ini, fim, 2);
+			CriarRastroTutorial(pini, pfim, 2);
+	}
+
+	public void Saltar()
+	{
+		btMissoes.SetActive(true);
+		btRealizacoes.SetActive(true);
+		btMissoes.GetComponent<Animator>().Play("Aparecer");
+		btRealizacoes.GetComponent<Animator>().Play("Aparecer");
+		btConfig.SetActive(true);
+		btConfig.GetComponent<Animator>().Play("Aparecer");
+		painelContador.SetActive(true);
+		texto.text = "";
+		texto.enabled = false;
+		texto2.text = "";
+		texto2.enabled = false;
+
+		Dados.tutorialCompleto = true;
+		GerJogo.RecuperarCenario();
 	}
 }
 

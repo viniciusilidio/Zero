@@ -45,6 +45,8 @@ public class GerBotao : MonoBehaviour
 
 	Transform paiRastro;
 
+	bool escondido = false;
+
 	// Inicialização, chamada quando o objeto é criado.
 	void Awake()
 	{
@@ -81,63 +83,80 @@ public class GerBotao : MonoBehaviour
 
 	void Update()
 	{
-		if (brilhar)
+		if (escondido == false)
 		{
-			imagem.color = Color.Lerp(
-				cor, Constantes.corBrilho, tempoLerp);
-			if (tempoLerp < 1)
+			if (brilhar)
 			{
-				tempoLerp += Time.deltaTime / duracaoBrilho;
+				imagem.color = Color.Lerp(
+					cor, Constantes.corBrilho, tempoLerp);
+				if (tempoLerp < 1)
+				{
+					tempoLerp += Time.deltaTime / duracaoBrilho;
+				}
+				else
+				{
+					brilhar = false;
+					desbrilhar = true;
+				}
 			}
-			else
+			else if (desbrilhar)
 			{
-				brilhar = false;
-				desbrilhar = true;
+				imagem.color = Color.Lerp(
+					Constantes.corBrilho, cor, tempoLerp);
+				if (tempoLerp < 1)
+				{
+					tempoLerp += Time.deltaTime / duracaoBrilho;
+				}
+				else
+				{
+					desbrilhar = false;
+					brilho.enabled = false;
+				}
+			}
+
+			if (sumir)
+			{
+				alfa = (tempo - Time.time) / tempoSumir;
+				if (alfa < 0)
+				{
+					Destruir();
+				}
+				else
+				{
+					imagem.color = new Color(
+						imagem.color.r,
+						imagem.color.g,
+						imagem.color.b,
+						alfa);
+
+					txtValor.color = new Color(
+						txtValor.color.r,
+						txtValor.color.g,
+						txtValor.color.b,
+						alfa);
+
+					txtSinal.color = new Color(
+						txtSinal.color.r,
+						txtSinal.color.g,
+						txtSinal.color.b,
+						alfa);
+				}
 			}
 		}
-		else if (desbrilhar)
-		{
-			imagem.color = Color.Lerp(
-				Constantes.corBrilho, cor, tempoLerp);
-			if (tempoLerp < 1)
-			{
-				tempoLerp += Time.deltaTime / duracaoBrilho;
-			}
-			else
-			{
-				desbrilhar = false;
-				brilho.enabled = false;
-			}
-		}
+	}
 
-		if (sumir)
-		{
-			alfa = (tempo - Time.time) / tempoSumir;
-			if (alfa < 0)
-			{
-				Destruir();
-			}
-			else
-			{
-				imagem.color = new Color(
-					imagem.color.r,
-					imagem.color.g,
-					imagem.color.b,
-					alfa);
+	public void Esconder()
+	{
+		escondido = true;
+		imagem.enabled = false;
+		GetComponent<Button>().interactable = false;
+	}
 
-				txtValor.color = new Color(
-					txtValor.color.r,
-					txtValor.color.g,
-					txtValor.color.b,
-					alfa);
-
-				txtSinal.color = new Color(
-					txtSinal.color.r,
-					txtSinal.color.g,
-					txtSinal.color.b,
-					alfa);
-			}
-		}
+	public void Mostrar()
+	{
+		escondido = false;
+		imagem.enabled = true;
+		GetComponent<Button>().interactable = true;
 	}
 
 	void GerarSinal()

@@ -171,7 +171,7 @@ public class Realizacao
 		if (valores.Length >= 1)
 		{
 			if ((valores[0] > 0 && valores[0] > objetivos[0]) ||
-			    (valores[0] < 0 && valores[0] < objetivos[0]))
+			    (valores[0] < 0 && valores[0] < -objetivos[0]))
 			{
 				Completou();
 			}

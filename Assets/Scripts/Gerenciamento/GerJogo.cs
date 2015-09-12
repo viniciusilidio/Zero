@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Analytics;
 
 public class GerJogo : MonoBehaviour
 {
+	static GerJogo instancia = null;
+
+	public GameObject objTutorial;
+
 	public GameObject botaoBase;
 	public float distanciaPorcentagem = 0.42f;
 	public int quantidadeInicial = 3;
@@ -26,8 +31,8 @@ public class GerJogo : MonoBehaviour
 
 	static Vector3 [] grade;
 	static int qtdMaxima = 1;
-	static List<int> posicoesLivres = new List<int>();
-	static List<int> posicoesOcupadas = new List<int>();
+	//static List<int> posicoesLivres = new List<int>();
+	//static List<int> posicoesOcupadas = new List<int>();
 
 	public float intervaloCriarBloco = 10.0f;
 	float tempoProximoBloco = 0;
@@ -45,8 +50,12 @@ public class GerJogo : MonoBehaviour
 	static int missaoPlacar;
 	static int missaoMultiplicador;
 
+	public bool resetarDadosAoIniciar = false;
+
 	void Awake()
 	{
+		instancia = this;
+
 		botaoBaseEstatico = botaoBase;
 		transformEstatico = transform;
 		painelRastrosEstatico = painelRastros;
@@ -64,6 +73,7 @@ public class GerJogo : MonoBehaviour
 
 		grade = new Vector3[qtdMaxima];
 
+		/*
 		posicoesLivres.Clear();
 		if (posicoesLivres.Count == 0)
 		{
@@ -72,6 +82,12 @@ public class GerJogo : MonoBehaviour
 				grade[i] = gradePosicoes[i].localPosition;
 				posicoesLivres.Add(i);
 			}
+		}
+		*/
+		for (int i = 0; i < qtdMaxima; i++)
+		{
+			grade[i] = gradePosicoes[i].localPosition;
+			objetos.Add(null);
 		}
 
 		if (Dados.textosMensagens == null)
@@ -108,7 +124,13 @@ public class GerJogo : MonoBehaviour
 			}
 		}
 
-		PlayerPrefs.DeleteAll();
+#if UNITY_EDITOR
+		if (resetarDadosAoIniciar)
+		{
+			PlayerPrefs.DeleteAll();
+		}
+#endif
+
 		if (PlayerPrefs.GetString(Dados.nomeVersaoSalvar)
 		    == Dados.versaoSalvar)
 		{
@@ -130,7 +152,24 @@ public class GerJogo : MonoBehaviour
 		}
 
 		tempoProximoBloco = Time.time + Dados.tempoCriarBlocos;
-		proximoSalvar = Time.time + tempoSalvar;
+		proximoSalvar = 0;
+
+		if (Dados.tutorialCompleto == false || 
+		    Dados.refazerTutorial == true)
+		{
+			Dados.refazerTutorial = false;
+			Dados.tutorialCompleto = false;
+			objTutorial.SetActive(true);
+			objTutorial.GetComponent<Tutorial>().Comecar();
+			proximoSalvar = Time.time + 10;
+			tempoProximoBloco = Time.time + 10;
+		}
+		else
+		{
+			objTutorial.SetActive(false);
+		}
+
+		Dados.tempoAnteriorDeJogo = Time.time;
 	}
 
 	static bool adicionarNovoBlocoAleatorio = false;
@@ -150,11 +189,25 @@ public class GerJogo : MonoBehaviour
 		}
 	}
 
+	public static void Salvar()
+	{
+		instancia.proximoSalvar = 0;
+		instancia.VerificarSalvar();
+	}
+
 	void VerificarSalvar()
 	{
 		if (Time.time > proximoSalvar)
 		{
+			AjeitarTempo();
+
 			long [] valores = new long[1];
+			if (Dados.tempoTotalDeJogo >= ulong.MaxValue ||
+			    Dados.tempoTotalDeJogo < 1)
+			{
+				Dados.tempoTotalDeJogo = 1;
+			}
+
 			if (Dados.tempoTotalDeJogo < (ulong) long.MaxValue)
 			{
 				valores[0] = (long) Dados.tempoTotalDeJogo;
@@ -167,21 +220,40 @@ public class GerJogo : MonoBehaviour
 				Realizacao.Tipo.TempoTotal, valores);
 
 			proximoSalvar = Time.time + tempoSalvar;
-			
-			Dados.tempoAtualDeJogo = Time.time;
-			Dados.tempoTotalDeJogo += (ulong)Dados.tempoAtualDeJogo;
+
 			
 			Armazenador.SalvarDados();
 			//Utilidade.DebugMensagem ("Dados salvos "+Time.time);
 		}
 	}
 
+	static void AjeitarTempo()
+	{
+		Debug.Log ("ALTERANDO TEMPO DE JOGO. Tempo Atual: "+
+		           Dados.tempoAtualDeJogo+", Tempo Total: "+
+		           Dados.tempoTotalDeJogo+", Tempo Anterior: "+
+		           Dados.tempoAnteriorDeJogo+ 
+		           ", Time.time: "+Time.time);
+
+		//Dados.tempoAtualDeJogo = Time.time - Dados.tempoAtualDeJogo;
+
+		Dados.tempoAtualDeJogo = Time.time - Dados.tempoAnteriorDeJogo;
+		Dados.tempoAnteriorDeJogo = Time.time;
+
+		Dados.tempoTotalDeJogo += (ulong)Dados.tempoAtualDeJogo;
+
+		Debug.Log ("ALTERANDO TEMPO DE JOGO. Tempo Atual: "+
+		           Dados.tempoAtualDeJogo+", Tempo Total: "+
+		           Dados.tempoTotalDeJogo+", Tempo Anterior: "+
+		           Dados.tempoAnteriorDeJogo+ 
+		           ", Time.time: "+Time.time);
+	}
+
 	void OnDestroy()
 	{
-		Dados.tempoAtualDeJogo = Time.time;
-		Dados.tempoTotalDeJogo += (ulong)Dados.tempoAtualDeJogo;
-		
-		Armazenador.SalvarDados();
+		//AjeitarTempo();
+		//Armazenador.SalvarDados();
+		Salvar();
 	}
 
 	void VerificarCriarBlocos()
@@ -198,27 +270,54 @@ public class GerJogo : MonoBehaviour
 
 	static int PegarProximaPosicaoLivre()
 	{
+		/*
 		if (posicoesLivres.Count == 0 ||
 		    posicoesOcupadas.Count > qtdMaxima)
 		{
 			return -1;
 		}
+		*/
+		if (PosicoesOcupadas() >= qtdMaxima)
+		{
+			return -1;
+		}
 		
-		int ind = Utilidade.AleatorioLista<int>(posicoesLivres);
-		posicoesOcupadas.Add(ind);
+		//int ind = Utilidade.AleatorioLista<int>(posicoesLivres);
+		//posicoesOcupadas.Add(ind);
+		int ind = Random.Range(0, qtdMaxima);
+		int indAnterior = ind;
+		while(objetos[ind] != null)
+		{
+			ind++;
+			if (ind >= qtdMaxima)
+			{
+				ind = 0;
+			}
+			if (ind == indAnterior)
+			{
+				ind = -1;
+				break;
+			}
+		}
 
 		return ind;
 	}
 
 	static void LiberarPosicao(int p)
 	{
-		posicoesOcupadas.Remove(p);
-		posicoesLivres.Add(p);
+		//posicoesOcupadas.Remove(p);
+		//posicoesLivres.Add(p);
+		if (objetos[p] != null)
+		{
+			//objetos[p].Destruir();
+			objetos[p] = null;
+		}
 	}
 
 	static bool PosicaoOcupada(int p)
 	{
-		return posicoesOcupadas.Contains(p);
+		//return posicoesOcupadas.Contains(p);
+		return objetos[p] != null;
 	}
 
 	static List<int> listaPosicoesAdicionar = new List<int>();
@@ -251,40 +350,80 @@ public class GerJogo : MonoBehaviour
 	{
 		//cont++;
 		//Debug.Log ("Entoru aqui pera "+cont+" vez!");
-		if (posicoesLivres.Count > 0)
+		//if (posicoesLivres.Count > 0)
+		bool listaCheia = true;
+		foreach(GerBotao b in objetos)
 		{
-			Tipos.Botao tipoBloco = Tipos.Botao.Zero;
-			switch(tipo){
-			case 0: tipoBloco = Tipos.Botao.Zero; break;
-			case 1: tipoBloco = Tipos.Botao.Positivo; break;
-			case 2: tipoBloco = Tipos.Botao.Negativo; break;
-			case 3: tipoBloco = Tipos.Botao.Multiplicador; break;
-			}
-
-			GameObject botao = (GameObject) Instantiate(
-				botaoBaseEstatico, Vector3.zero, Quaternion.identity);
-
-			botao.GetComponent<GerBotao>()
-				.Inicializar(transformEstatico, pos, 
-				             painelRastrosEstatico);
-
-			botao.GetComponent<GerBotao>().tipo	= tipoBloco;
-			botao.GetComponent<GerBotao>().valor = valor;
-			botao.GetComponent<GerBotao>().Alterar();
-
-			if (tipoBloco == Tipos.Botao.Zero)
+			if (b == null)
 			{
-				botao.GetComponent<GerBotao>().Zerou();
+				listaCheia = false;
+				break;
+			}
+		}
+
+		if (listaCheia == false)
+		{
+			bool cheio = false;
+			int posAnterior = pos;
+			while(objetos[pos] != null)
+			{
+				pos++;
+				if (pos >= qtdMaxima)
+				{
+					pos = 0;
+				}
+				if (pos == posAnterior)
+				{
+					cheio = true;
+					break;
+				}
 			}
 
-			botao.transform.localPosition = grade[pos];
+			if (cheio == false)
+			{
 
-			posicoesLivres.Remove(pos);
-			posicoesOcupadas.Add(pos);
-			
-			objetos.Add(botao.GetComponent<GerBotao>());
+				Tipos.Botao tipoBloco = Tipos.Botao.Zero;
+				switch(tipo){
+				case 0: tipoBloco = Tipos.Botao.Zero; break;
+				case 1: tipoBloco = Tipos.Botao.Positivo; break;
+				case 2: tipoBloco = Tipos.Botao.Negativo; break;
+				case 3: tipoBloco = Tipos.Botao.Multiplicador; break;
+				}
+				
+				GameObject botao = (GameObject) Instantiate(
+					botaoBaseEstatico, Vector3.zero, Quaternion.identity);
+				
+				botao.GetComponent<GerBotao>()
+					.Inicializar(transformEstatico, pos, 
+					             painelRastrosEstatico);
+				
+				botao.GetComponent<GerBotao>().tipo	= tipoBloco;
+				botao.GetComponent<GerBotao>().valor = valor;
+				botao.GetComponent<GerBotao>().Alterar();
+				
+				if (tipoBloco == Tipos.Botao.Zero)
+				{
+					botao.GetComponent<GerBotao>().Zerou();
+				}
 
-			RearranjarCenario();
+				botao.transform.localPosition = grade[pos];
+
+				//posicoesLivres.Remove(pos);
+				//posicoesOcupadas.Add(pos);
+				
+				//objetos.Add(botao.GetComponent<GerBotao>());
+				objetos[pos] = botao.GetComponent<GerBotao>();
+
+				//RearranjarCenario();
+			}
+			else
+			{
+				MensagemListaCheia();
+			}
+		}
+		else
+		{
+			MensagemListaCheia();
 		}
 	}
 
@@ -319,22 +458,51 @@ public class GerJogo : MonoBehaviour
 		int pos = PegarProximaPosicaoLivre();
 		if (pos != -1)
 		{
-			GameObject botao = (GameObject) Instantiate(
-				botaoBaseEstatico, Vector3.zero, Quaternion.identity);
-			
-			//botao.transform.SetParent(transformEstatico, false);
-			
-			botao.GetComponent<GerBotao>()
-				.Inicializar(transformEstatico, pos, 
-				             painelRastrosEstatico);
 
-			botao.GetComponent<GerBotao>().Mudar(valor);
-			//botao.GetComponent<GerBotao>().posicaoGrade = pos;
-			botao.transform.localPosition = grade[pos];
+			bool cheio = false;
+			int posAnterior = pos;
+			while(objetos[pos] != null)
+			{
+				pos++;
+				if (pos >= qtdMaxima)
+				{
+					pos = 0;
+				}
+				if (pos == posAnterior)
+				{
+					cheio = true;
+					break;
+				}
+			}
 			
-			objetos.Add(botao.GetComponent<GerBotao>());
+			if (cheio == false)
+			{
+				GameObject botao = (GameObject) Instantiate(
+					botaoBaseEstatico, Vector3.zero, Quaternion.identity);
+				
+				//botao.transform.SetParent(transformEstatico, false);
+				
+				botao.GetComponent<GerBotao>()
+					.Inicializar(transformEstatico, pos, 
+					             painelRastrosEstatico);
+				
+				botao.GetComponent<GerBotao>().Mudar(valor);
+				//botao.GetComponent<GerBotao>().posicaoGrade = pos;
 
-			RearranjarCenario();
+				botao.transform.localPosition = grade[pos];
+				
+				//posicoesLivres.Remove(pos);
+				//posicoesOcupadas.Add(pos);
+				
+				//objetos.Add(botao.GetComponent<GerBotao>());
+				objetos[pos] = botao.GetComponent<GerBotao>();
+				
+				//RearranjarCenario();
+			}
+			else
+			{
+				MensagemListaCheia();
+			}
 		}
 		else
 		{
@@ -353,27 +521,54 @@ public class GerJogo : MonoBehaviour
 		int pos = PegarProximaPosicaoLivre();
 		if (pos != -1)
 		{
-			GameObject botao = (GameObject) Instantiate(
-				botaoBaseEstatico, Vector3.zero, Quaternion.identity);
+			bool cheio = false;
+			int posAnterior = pos;
+			while(objetos[pos] != null)
+			{
+				pos++;
+				if (pos >= qtdMaxima)
+				{
+					pos = 0;
+				}
+				if (pos == posAnterior)
+				{
+					cheio = true;
+					break;
+				}
+			}
 			
-			//botao.transform.SetParent(transformEstatico, false);
+			if (cheio == false)
+			{
+				GameObject botao = (GameObject) Instantiate(
+					botaoBaseEstatico, Vector3.zero, Quaternion.identity);
+				
+				//botao.transform.SetParent(transformEstatico, false);
+				
+				botao.GetComponent<GerBotao>()
+					.Inicializar(transformEstatico, pos,
+					             painelRastrosEstatico);
+				
+				botao.GetComponent<GerBotao>().tipo	=
+					Tipos.Botao.Multiplicador;
+				botao.GetComponent<GerBotao>().valor = v;
+				botao.GetComponent<GerBotao>().Alterar();
+				
+				//botao.GetComponent<GerBotao>().posicaoGrade = pos;
 
-			botao.GetComponent<GerBotao>()
-				.Inicializar(transformEstatico, pos,
-				             painelRastrosEstatico);
-			
-			botao.GetComponent<GerBotao>().tipo	=
-				Tipos.Botao.Multiplicador;
-			botao.GetComponent<GerBotao>().valor = v;
-			botao.GetComponent<GerBotao>().Alterar();
-
-			//botao.GetComponent<GerBotao>().posicaoGrade = pos;
-
-			botao.transform.localPosition = grade[pos];
-			
-			objetos.Add(botao.GetComponent<GerBotao>());
-
-			RearranjarCenario();
+				botao.transform.localPosition = grade[pos];
+				
+				//posicoesLivres.Remove(pos);
+				//posicoesOcupadas.Add(pos);
+				
+				//objetos.Add(botao.GetComponent<GerBotao>());
+				objetos[pos] = botao.GetComponent<GerBotao>();
+				
+				//RearranjarCenario();
+			}
+			else
+			{
+				MensagemListaCheia();
+			}
 		}
 		else
 		{
@@ -384,19 +579,46 @@ public class GerJogo : MonoBehaviour
 
 	static void CriarBotao(int p)
 	{
-		GameObject botao = (GameObject) Instantiate(
-			botaoBaseEstatico, Vector3.zero, Quaternion.identity);
-
-		botao.GetComponent<GerBotao>()
-			.Inicializar(transformEstatico, p, 
-			             painelRastrosEstatico);
-
 		//botao.GetComponent<GerBotao>().posicaoGrade = p;
-		botao.transform.localPosition = grade[p];
+		bool cheio = false;
+		int posAnterior = p;
+		while(objetos[p] != null)
+		{
+			p++;
+			if (p >= qtdMaxima)
+			{
+				p = 0;
+			}
+			if (p == posAnterior)
+			{
+				cheio = true;
+				break;
+			}
+		}
+		
+		if (cheio == false)
+		{
+			GameObject botao = (GameObject) Instantiate(
+				botaoBaseEstatico, Vector3.zero, Quaternion.identity);
+			
+			botao.GetComponent<GerBotao>()
+				.Inicializar(transformEstatico, p, 
+				             painelRastrosEstatico);
 
-		objetos.Add(botao.GetComponent<GerBotao>());
-
-		RearranjarCenario();
+			botao.transform.localPosition = grade[p];
+			
+			//posicoesLivres.Remove(pos);
+			//posicoesOcupadas.Add(pos);
+			
+			//objetos.Add(botao.GetComponent<GerBotao>());
+			objetos[p] = botao.GetComponent<GerBotao>();
+			
+			//RearranjarCenario();
+		}
+		else
+		{
+			MensagemListaCheia();
+		}
 	}
 
 	public static void SoltarObjeto(GerBotao ativo)
@@ -404,7 +626,7 @@ public class GerJogo : MonoBehaviour
 		bool juntou = false;
 		foreach(GerBotao obj in objetos)
 		{
-			if (obj != ativo)
+			if (obj != null && obj != ativo)
 			{
 				float distancia = Vector3.Distance(
 					obj.transform.localPosition, 
@@ -441,40 +663,9 @@ public class GerJogo : MonoBehaviour
 		ativo.transform.localPosition = grade[p];
 		ativo.posicaoGrade = p;
 
-		posicoesOcupadas.Add(p);
-		posicoesLivres.Remove(p);
-	}
-
-	static void MostrarGrade()
-	{
-		string saida = "";
-		int i = 0;
-		for (int y = 0; y < 4; y++)
-		{
-			for (int x = 0; x < 4; x++)
-			{
-				string v = "x";
-				if (posicoesLivres.Contains(i)) v = "_";
-				saida += " " + v;
-				i++;
-			}
-			saida += "\n";
-		}
-
-		saida += "Livres: ";
-		foreach(int l in posicoesLivres)
-		{
-			saida += "" + l + ", ";
-		}
-
-		saida += "\nOcups: ";
-		foreach(int o in posicoesOcupadas)
-		{
-			saida += "" + o + ", ";
-		}
-
-		Utilidade.DebugMensagem ("Grade: \n"+saida);
-
+		objetos[p] = ativo;
+		//posicoesOcupadas.Add(p);
+		//posicoesLivres.Remove(p);
 	}
 
 	static int PegarPosicaoMaisProxima(Vector3 pos)
@@ -482,7 +673,17 @@ public class GerJogo : MonoBehaviour
 		int retorno = -1;
 		float d = float.MaxValue;
 
-		foreach(int i in posicoesLivres)
+		List<int> posLivres = new List<int>();
+
+		for(int i = 0; i < objetos.Count; i++)
+		{
+			if (objetos[i] == null)
+			{
+				posLivres.Add(i);
+			}
+		}
+
+		foreach(int i in posLivres)
 		{
 			float d2 = Vector3.Distance(pos, grade[i]);
 			if (d2 < d)
@@ -561,7 +762,7 @@ public class GerJogo : MonoBehaviour
 
 		LiberarPosicao(posjun);
 
-		objetos.Remove(juntado);
+		//objetos.Remove(juntado);
 		juntado.Destruir();
 
 		if (novoValor == 0)
@@ -579,7 +780,7 @@ public class GerJogo : MonoBehaviour
 			{
 				pontos = parado.valor;
 			}
-			objetos.Remove(parado);
+			//objetos.Remove(parado);
 			parado.Zerou();
 			LiberarPosicao(pospar);
 
@@ -687,6 +888,7 @@ public class GerJogo : MonoBehaviour
 		string vs = "Valores:";
 		foreach(GerBotao bloco in objetos)
 		{
+			if (bloco == null) continue;
 			if (bloco.tipo != Tipos.Botao.Multiplicador &&
 			    bloco.tipo != Tipos.Botao.Zero)
 			{
@@ -726,6 +928,11 @@ public class GerJogo : MonoBehaviour
 			resets++;
 		}
 
+		if (Dados.quantidadeDeResets == 0 && resets > 0)
+		{
+			EnviarDadosUnityAnalytics();
+		}
+
 		Dados.quantidadeDeResets += resets;
 
 		AjeitarPontosTotais();
@@ -734,6 +941,22 @@ public class GerJogo : MonoBehaviour
 		{
 			ResetouJogo();
 		}
+	}
+
+	static void EnviarDadosUnityAnalytics()
+	{
+		int realizacoesComplestas = 0;
+		foreach(Realizacao r in Dados.realizacoes)
+		{
+			if (r.completa)
+				realizacoesComplestas++;
+		}
+		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+		                      {
+			{ "realizacoes", realizacoesComplestas },
+			{ "tempo", Dados.tempoTotalDeJogo }
+		});
+		Utilidade.DebugMensagem("Enviou pro analytics");
 	}
 
 	static void AjeitarPontosTotais()
@@ -815,20 +1038,64 @@ public class GerJogo : MonoBehaviour
 	static List<int> posicoesOcupadasG = new List<int>();
 	public static void GuardarCenario()
 	{
+		if (Dados.tempoTotalDeJogo > 1)
+		{
+			Salvar();
+		}
 		objetosG = objetos;
-		posicoesLivresG = posicoesLivres;
-		posicoesOcupadasG = posicoesOcupadas;
+		foreach(GerBotao b in objetosG)
+		{
+			if (b != null)
+			{
+				b.Esconder();
+			}
+		}
+		//posicoesLivresG = posicoesLivres;
+		//posicoesOcupadasG = posicoesOcupadas;
 		Limpar ();
 	}
 	public static void RecuperarCenario()
 	{
+		instancia.proximoSalvar = Time.time + 1;
+		instancia.tempoProximoBloco = Time.time + Dados.tempoCriarBlocos;
+
+		Limpar ();
+		Armazenador.CarregarDados();
+
+		Dados.pontosAtuais += 5;
+		Dados.missoes[0].Verificar(4);
+
+		long [] valores = new long[1];
+		valores[0] = Dados.pontosAtuais;
+		foreach(Realizacao re in Dados.realizacoes)
+		{
+			if (re.indice == 1)
+			{
+				re.Completou();
+				break;
+			}
+		}
+
+		instancia.objTutorial.SetActive(false);
+		Dados.tutorialCompleto = true;
+
+		/*
 		Limpar();
+		foreach(GerBotao b in objetosG)
+		{
+			if (b != null)
+			{
+				b.Mostrar();
+			}
+		}
 		objetos = objetosG;
-		posicoesLivres = posicoesLivresG;
-		posicoesOcupadas = posicoesOcupadasG;
-		RearranjarCenario();
+		//*/
+		//posicoesLivres = posicoesLivresG;
+		//posicoesOcupadas = posicoesOcupadasG;
+		//RearranjarCenario();
 	}
 
+	/*
 	public static void RearranjarCenario()
 	{
 		foreach(GerBotao o1 in objetos)
@@ -866,6 +1133,7 @@ public class GerJogo : MonoBehaviour
 		posicoesLivres.Remove(novaPosicao);
 		posicoesOcupadas.Add(novaPosicao);
 	}
+	*/
 
 	static void CompletouMissao(int missao)
 	{
@@ -879,24 +1147,28 @@ public class GerJogo : MonoBehaviour
 		{
 			GerBotao gb = objetos[i];
 			//Utilidade.DebugMensagem ("Objeto: "+gb.posicaoGrade);
-			gb.Destruir();
+			if (gb != null)
+			{
+				gb.Destruir();
+			}
 		}
 		objetos.Clear();
-		posicoesOcupadas.Clear();
-		posicoesLivres.Clear();
+		//posicoesOcupadas.Clear();
+		//posicoesLivres.Clear();
 		Dados.pontosAtuais = 0;
 		Dados.pontosTotaisReais = 0;
 		Dados.quantidadeDeResets = 0;
 		Dados.tempoTotalDeJogo = 0;
 		Dados.tempoAtualDeJogo = 0;
 
-		if (posicoesLivres.Count == 0)
-		{
+		//if (posicoesLivres.Count == 0)
+		//{
 			for (int i = 0; i < qtdMaxima; i++)
 			{
-				posicoesLivres.Add(i);
+				//posicoesLivres.Add(i);
+				objetos.Add(null);
 			}
-		}
+		//}
 
 		for(int i = 0; i < quantidadeInicial; i++)
 		{
@@ -917,21 +1189,30 @@ public class GerJogo : MonoBehaviour
 		AjeitarResets();
 	}
 
-	public static void Limpar()
+	public static void Limpar(bool recriar = true)
 	{
 		for (int i = 0; i < objetos.Count; i++)
 		{
 			GerBotao gb = objetos[i];
 			//Utilidade.DebugMensagem ("Objeto: "+gb.posicaoGrade);
-			gb.Destruir();
+			if (gb != null)
+			{
+				gb.Destruir();
+			}
 		}
 		objetos.Clear();
-		posicoesOcupadas.Clear();
-		posicoesLivres.Clear();
-		for (int i = 0; i < qtdMaxima; i++)
+		//posicoesOcupadas.Clear();
+		//posicoesLivres.Clear();
+		//*
+		if (recriar)
 		{
-			posicoesLivres.Add(i);
+			for (int i = 0; i < qtdMaxima; i++)
+			{
+				//posicoesLivres.Add(i);
+				objetos.Add(null);
+			}
 		}
+		//*/
 	}
 
 	public void AdicionarPersonalizado(Text texto)
@@ -991,6 +1272,26 @@ public class GerJogo : MonoBehaviour
 		/*
 		}
 		*/
+	}
+
+	public static int PosicoesOcupadas()
+	{
+		int p = 0;
+		foreach(GerBotao b in objetos)
+		{
+			if (b != null)
+			{
+				p++;
+			}
+		}
+		return p;
+	}
+
+	public static void FazerTutorial()
+	{
+		Dados.tutorialCompleto = false;
+		Salvar();
+		Application.LoadLevel(Constantes.telaJogo);
 	}
 }
 
