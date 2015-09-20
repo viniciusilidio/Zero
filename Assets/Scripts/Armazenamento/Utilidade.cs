@@ -13,6 +13,47 @@ public class Utilidade
 		return Random.value < 0.5f;
 	}
 
+	public static void VerificarRecarregarIdiomas(bool forcar = false)
+	{
+		if (Dados.recarregarIdioma || forcar ||
+		    Dados.textosMensagens == null ||
+		    Dados.realizacoes.Count == 0 ||
+		    Dados.missoes.Count == 0)
+		{
+			Dados.textosMensagens = GerArquivo.CarregarMensagens();
+			Dados.realizacoes = GerArquivo.CarregarRealizacoes();
+			Dados.missoes = GerArquivo.CarregarMissoes();
+
+			Dados.recarregarIdioma = false;
+		}
+	}
+
+	public static void VerificarLingua()
+	{
+		int linguaAnterior = Dados.linguaAtual;
+		if (PlayerPrefs.HasKey(Dados.chaveSalvarLingua))
+		{
+			Dados.linguaAtual = PlayerPrefs.GetInt(
+				Dados.chaveSalvarLingua);
+		}
+		else
+		{
+			if (Application.systemLanguage == 
+			    SystemLanguage.Portuguese)
+			{
+				Dados.linguaAtual = 1;
+			}
+			else
+			{
+				Dados.linguaAtual = 0;
+			}
+			PlayerPrefs.SetInt(Dados.chaveSalvarLingua, 
+			                   Dados.linguaAtual);
+		}
+
+		VerificarRecarregarIdiomas(linguaAnterior != Dados.linguaAtual);
+	}
+
 	public static void DebugMensagem(string mensagem, int t = 0)
 	{
 		Dados.totalDebug++;

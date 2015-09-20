@@ -6,8 +6,14 @@ public class GerArquivo
 {
 	public static string [] CarregarMensagens()
 	{
+		string nomeArquivo = Dados.arquivoMensagensIngles;
+		if (Dados.linguaAtual == 1)
+		{
+			nomeArquivo = Dados.arquivoMensagens;
+		}
+
 		TextAsset texto = Resources.Load<TextAsset>(
-			Dados.arquivoMensagens);
+			nomeArquivo);
 		
 		string [] mensagens = {
 			"Erro ao abrir arquivo de mensagens!"
@@ -27,8 +33,14 @@ public class GerArquivo
 
 	public static List<Missao> CarregarMissoes()
 	{
+		string nomeArquivo = Dados.arquivoMissoesIngles;
+		if (Dados.linguaAtual == 1)
+		{
+			nomeArquivo = Dados.arquivoMissoes;
+		}
+		
 		TextAsset texto = Resources.Load<TextAsset>(
-			Dados.arquivoMissoes);
+			nomeArquivo);
 
 		List<Missao> missoes = new List<Missao>();
 
@@ -85,9 +97,15 @@ public class GerArquivo
 
 	public static List<Realizacao> CarregarRealizacoes()
 	{
-
+		string nomeArquivo = Dados.arquivoRealizacoesIngles;
+		if (Dados.linguaAtual == 1)
+		{
+			nomeArquivo = Dados.arquivoRealizacoes;
+		}
+		
 		TextAsset texto = Resources.Load<TextAsset>(
-			Dados.arquivoRealizacoes);
+			nomeArquivo);
+
 
 		List<Realizacao> realizacoes = new List<Realizacao>();
 

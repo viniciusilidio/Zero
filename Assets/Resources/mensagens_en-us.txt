@@ -1,0 +1,3 @@
+<color=#c05436ff>There is no room for blocks on the screen.</color>
+Congratulations, you reset the score! Keep playing...
+You may move a block over another!

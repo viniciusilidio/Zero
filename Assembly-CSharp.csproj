@@ -6,7 +6,7 @@
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
 	<RootNamespace></RootNamespace>
-	<ProjectGuid>{A35BC362-EC8F-3E84-FBBF-939EBB9E2BB7}</ProjectGuid>
+	<ProjectGuid>{41517DF7-67E6-A3D0-6620-7717A3CA97E7}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<AssemblyName>Assembly-CSharp</AssemblyName>
@@ -61,15 +61,19 @@
      <Compile Include="Assets\Scripts\Gerenciamento\GerRastro.cs" />
      <Compile Include="Assets\Scripts\Gerenciamento\Tutorial.cs" />
      <Compile Include="Assets\Scripts\Interface\Apresentacao.cs" />
+     <Compile Include="Assets\Scripts\Interface\Idiomas.cs" />
      <Compile Include="Assets\Scripts\Interface\Interface.cs" />
      <Compile Include="Assets\Scripts\Interface\MostrarConfig.cs" />
      <Compile Include="Assets\Scripts\Interface\MostrarDebug.cs" />
      <Compile Include="Assets\Scripts\Interface\MostrarMissoes.cs" />
      <Compile Include="Assets\Scripts\Interface\MostrarPontos.cs" />
      <Compile Include="Assets\Scripts\Interface\MostrarRealizacoes.cs" />
+     <None Include="Assets\Resources\missoes_en-us.txt" />
+     <None Include="Assets\Resources\mensagens_en-us.txt" />
      <None Include="Assets\Resources\realizacoes.txt" />
      <None Include="Assets\Resources\mensagens.txt" />
      <None Include="Assets\Resources\missoes.txt" />
+     <None Include="Assets\Resources\realizacoes_en-us.txt" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>

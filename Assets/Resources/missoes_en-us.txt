@@ -1,0 +1,29 @@
+Mission complete
+
+Higher absolute value
+Join a <b><color=#3654c0ff>+{0}</color></b> with a <b><color=#c05436ff>-{0}</color></b> to enable blocks of <b><color=#ffff00ff>{1:0}</color></b>
+Mission complete! Higher value now is <b><color=#ffff00ff>{0:0}</color></b>!
+zerar
+0 4 8 16 32 64 128 256 512
+1 2 3 4 5 6 7 8 9
+
+Spawn time
+Make a <b><color=#00ffffff>{0}</color></b> or higher block to reduce the spawn time to <b><color=#ffff00ff>{1:0.0}</color></b> second(s)
+Mission complete! New spawn time is <b><color=#ffff00ff>{0:0.0}</color></b> second(s)!
+bloco
+0 100 1000 10000 100000 1000000
+5 4.5 4 3.5 3 2.5
+
+Spawn a new block after joining
+Score <b><color=#00ffffff>{0}</color></b> or higher to increase the chance of spawning additional blocks to <b><color=#ffff00ff>{1:0}%</color></b>
+Mission complete! Chance to spawn extra blocksnow is <b><color=#ffff00ff>{0:0}%</color></b>!
+placar
+0 10 100 1000 10000 100000 1000000 10000000
+10 15 20 25 30 35 40 45
+
+Spawn multiplier block
+Create a <b><color=#36c054ff>x{0}</color></b> or higher multiplier block to raise the spawn chance to <b><color=#ffff00ff>{1:0}%</color></b>
+Mission complete! Spawn chance now is  <b><color=#ffff00ff>{0:0}%</color></b>!
+multiplicador
+0 10 100 1000 10000 100000 1000000 10000000 100000000
+5 6 7 8 9 10 11 12 15

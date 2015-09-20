@@ -9,6 +9,8 @@ public class GerJogo : MonoBehaviour
 	static GerJogo instancia = null;
 
 	public GameObject objTutorial;
+	public GameObject objTutoIngles;
+	public GameObject objTutoPortugues;
 
 	public GameObject botaoBase;
 	public float distanciaPorcentagem = 0.42f;
@@ -56,6 +58,15 @@ public class GerJogo : MonoBehaviour
 	{
 		instancia = this;
 
+		if (Dados.linguaAtual == 1)
+		{
+			objTutorial = objTutoPortugues;
+		}
+		else
+		{
+			objTutorial = objTutoIngles;
+		}
+
 		botaoBaseEstatico = botaoBase;
 		transformEstatico = transform;
 		painelRastrosEstatico = painelRastros;
@@ -90,21 +101,8 @@ public class GerJogo : MonoBehaviour
 			objetos.Add(null);
 		}
 
-		if (Dados.textosMensagens == null)
-		{
-			Dados.textosMensagens = GerArquivo.CarregarMensagens();
-		}
-
-		if (Dados.realizacoes.Count == 0)
-		{
-			Dados.realizacoes = GerArquivo.CarregarRealizacoes();
-		}
+		Utilidade.VerificarRecarregarIdiomas();
 		GetComponent<MostrarRealizacoes>().Ativar();
-
-		if (Dados.missoes.Count == 0)
-		{
-			Dados.missoes = GerArquivo.CarregarMissoes();
-		}
 
 		for(int i = 0; i < Dados.missoes.Count; i++)
 		{
@@ -229,24 +227,28 @@ public class GerJogo : MonoBehaviour
 
 	static void AjeitarTempo()
 	{
+		/*
 		Debug.Log ("ALTERANDO TEMPO DE JOGO. Tempo Atual: "+
 		           Dados.tempoAtualDeJogo+", Tempo Total: "+
 		           Dados.tempoTotalDeJogo+", Tempo Anterior: "+
 		           Dados.tempoAnteriorDeJogo+ 
 		           ", Time.time: "+Time.time);
-
+		//*/
 		//Dados.tempoAtualDeJogo = Time.time - Dados.tempoAtualDeJogo;
 
-		Dados.tempoAtualDeJogo = Time.time - Dados.tempoAnteriorDeJogo;
-		Dados.tempoAnteriorDeJogo = Time.time;
+		//Dados.tempoAtualDeJogo = Time.time - Dados.tempoAnteriorDeJogo;
+		//Dados.tempoAnteriorDeJogo = Time.time;
 
-		Dados.tempoTotalDeJogo += (ulong)Dados.tempoAtualDeJogo;
+		//Dados.tempoTotalDeJogo += (ulong)Dados.tempoAtualDeJogo;
+		Dados.tempoTotalDeJogo += (ulong) instancia.tempoSalvar;
 
+		/*
 		Debug.Log ("ALTERANDO TEMPO DE JOGO. Tempo Atual: "+
 		           Dados.tempoAtualDeJogo+", Tempo Total: "+
 		           Dados.tempoTotalDeJogo+", Tempo Anterior: "+
 		           Dados.tempoAnteriorDeJogo+ 
 		           ", Time.time: "+Time.time);
+		//*/
 	}
 
 	void OnDestroy()
@@ -254,6 +256,7 @@ public class GerJogo : MonoBehaviour
 		//AjeitarTempo();
 		//Armazenador.SalvarDados();
 		Salvar();
+		PlayerPrefs.Save();
 	}
 
 	void VerificarCriarBlocos()
@@ -318,6 +321,18 @@ public class GerJogo : MonoBehaviour
 	{
 		//return posicoesOcupadas.Contains(p);
 		return objetos[p] != null;
+	}
+
+	static int PegarPosicao(GerBotao bloco)
+	{
+		for (int i = 0; i < objetos.Count; i++)
+		{
+			if (bloco == objetos[i])
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	static List<int> listaPosicoesAdicionar = new List<int>();
@@ -406,7 +421,8 @@ public class GerJogo : MonoBehaviour
 					botao.GetComponent<GerBotao>().Zerou();
 				}
 
-				botao.transform.localPosition = grade[pos];
+				botao.transform.localPosition = grade[pos % qtdMaxima];
+				//Debug.Log ("Grade pos: "+(pos % qtdMaxima));
 
 				//posicoesLivres.Remove(pos);
 				//posicoesOcupadas.Add(pos);
@@ -489,7 +505,7 @@ public class GerJogo : MonoBehaviour
 				botao.GetComponent<GerBotao>().Mudar(valor);
 				//botao.GetComponent<GerBotao>().posicaoGrade = pos;
 
-				botao.transform.localPosition = grade[pos];
+				botao.transform.localPosition = grade[pos % qtdMaxima];
 				
 				//posicoesLivres.Remove(pos);
 				//posicoesOcupadas.Add(pos);
@@ -555,7 +571,8 @@ public class GerJogo : MonoBehaviour
 				
 				//botao.GetComponent<GerBotao>().posicaoGrade = pos;
 
-				botao.transform.localPosition = grade[pos];
+				botao.transform.localPosition = grade[pos % qtdMaxima];
+
 				
 				//posicoesLivres.Remove(pos);
 				//posicoesOcupadas.Add(pos);
@@ -605,7 +622,7 @@ public class GerJogo : MonoBehaviour
 				.Inicializar(transformEstatico, p, 
 				             painelRastrosEstatico);
 
-			botao.transform.localPosition = grade[p];
+			botao.transform.localPosition = grade[p % qtdMaxima];
 			
 			//posicoesLivres.Remove(pos);
 			//posicoesOcupadas.Add(pos);
@@ -655,12 +672,12 @@ public class GerJogo : MonoBehaviour
 
 	static void AjeitarPosicao(GerBotao ativo)
 	{
-		LiberarPosicao(ativo.posicaoGrade);
+		LiberarPosicao(PegarPosicao(ativo));
 
 		int p = PegarPosicaoMaisProxima(
 			ativo.transform.localPosition);
 
-		ativo.transform.localPosition = grade[p];
+		ativo.transform.localPosition = grade[p % qtdMaxima];
 		ativo.posicaoGrade = p;
 
 		objetos[p] = ativo;
@@ -685,7 +702,7 @@ public class GerJogo : MonoBehaviour
 
 		foreach(int i in posLivres)
 		{
-			float d2 = Vector3.Distance(pos, grade[i]);
+			float d2 = Vector3.Distance(pos, grade[i % qtdMaxima]);
 			if (d2 < d)
 			{
 				retorno = i;
@@ -706,8 +723,8 @@ public class GerJogo : MonoBehaviour
 		long novoValor = 0;
 		long pontos = 0;
 
-		int pospar = parado.posicaoGrade;
-		int posjun = juntado.posicaoGrade;
+		int pospar = PegarPosicao(parado);	//parado.posicaoGrade;
+		int posjun = PegarPosicao(juntado);	//juntado.posicaoGrade;
 
 		bool mul = false;
 
@@ -918,6 +935,24 @@ public class GerJogo : MonoBehaviour
 			Realizacao.Tipo.CompletarMissoes, valores);
 	}
 
+	static void AjeitarGrade()
+	{
+		GameObject [] objs = GameObject.
+			FindGameObjectsWithTag("Bloco");
+
+		//List<GerBotao> listanova = new List<GerBotao>();
+
+		foreach(GameObject obj in objs)
+		{
+			GerBotao bot = obj.GetComponent<GerBotao>() ;
+			if (!objetos.Contains(bot))
+			{
+				bot.Destruir();
+			}
+			//listanova.Add(bot);
+		}
+	}
+
 	static void VerificarReset(long pontos)
 	{
 		ulong resets = 0;
@@ -1033,15 +1068,16 @@ public class GerJogo : MonoBehaviour
 		}
 	}
 
-	static List<GerBotao> objetosG = new List<GerBotao>();
-	static List<int> posicoesLivresG = new List<int>();
-	static List<int> posicoesOcupadasG = new List<int>();
+	//static List<GerBotao> objetosG = new List<GerBotao>();
+	//static List<int> posicoesLivresG = new List<int>();
+	//static List<int> posicoesOcupadasG = new List<int>();
 	public static void GuardarCenario()
 	{
 		if (Dados.tempoTotalDeJogo > 1)
 		{
 			Salvar();
 		}
+		/*
 		objetosG = objetos;
 		foreach(GerBotao b in objetosG)
 		{
@@ -1050,6 +1086,7 @@ public class GerJogo : MonoBehaviour
 				b.Esconder();
 			}
 		}
+		//*/
 		//posicoesLivresG = posicoesLivres;
 		//posicoesOcupadasG = posicoesOcupadas;
 		Limpar ();
@@ -1292,6 +1329,27 @@ public class GerJogo : MonoBehaviour
 		Dados.tutorialCompleto = false;
 		Salvar();
 		Application.LoadLevel(Constantes.telaJogo);
+	}
+
+	public static void ImprimirGrade()
+	{
+		string gra = "Grade:";
+		for (int i = 0; i < objetos.Count; i++)
+		{
+			if (i % 4 == 0)
+			{
+				gra += "\n";
+			}
+			if (objetos[i] == null)
+			{
+				gra += ". ";
+			}
+			else
+			{
+				gra += "X ";
+			}
+		}
+		Utilidade.DebugMensagem(gra);
 	}
 }
 

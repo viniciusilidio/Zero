@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Apresentacao : MonoBehaviour
 {
+	public bool apagarDados = false;
+
 	public float tempoComecarSumir = 3;
 	public float tempoMudarDeTela = 4;
 
@@ -15,20 +17,16 @@ public class Apresentacao : MonoBehaviour
 
 	void Awake()
 	{
-		if (Dados.textosMensagens == null)
+#if UNITY_EDITOR
+		if (apagarDados)
 		{
-			Dados.textosMensagens = GerArquivo.CarregarMensagens();
+			PlayerPrefs.DeleteAll();
 		}
-		
-		if (Dados.realizacoes.Count == 0)
-		{
-			Dados.realizacoes = GerArquivo.CarregarRealizacoes();
-		}
-		
-		if (Dados.missoes.Count == 0)
-		{
-			Dados.missoes = GerArquivo.CarregarMissoes();
-		}
+#endif
+
+		Utilidade.VerificarLingua();
+
+		Utilidade.VerificarRecarregarIdiomas();
 
 		imagem = GetComponent<Image>();
 		multiAlfa = 1.5f / tempoMudarDeTela;
@@ -73,5 +71,7 @@ public class Apresentacao : MonoBehaviour
 			imagem.color.b,
 			alfa);
 	}
+
+
 }
 

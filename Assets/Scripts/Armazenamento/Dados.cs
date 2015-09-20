@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 public class Dados
 {
+	// Linguas
+	// 0 = en-us, 1 = pt-br
+	public static int linguaAtual = 0;
+	public static string chaveSalvarLingua = "idioma";
+	public static bool recarregarIdioma = true;
+
 	// Tutorial
 	public static bool tutorialCompleto = false;
 	public static bool refazerTutorial = false;
@@ -48,15 +54,18 @@ public class Dados
 
 	// Missões
 	public static string arquivoMissoes = "missoes";
+	public static string arquivoMissoesIngles = "missoes_en-us";
 	public static string textoMissaoCompleta = "Missão completa.";
 	public static List<Missao> missoes = new List<Missao>();
 
 	// Realizações
 	public static string arquivoRealizacoes = "realizacoes";
+	public static string arquivoRealizacoesIngles = "realizacoes_en-us";
 	public static List<Realizacao> realizacoes = new List<Realizacao>();
 
 	// Mensagens
 	public static string arquivoMensagens = "mensagens";
+	public static string arquivoMensagensIngles = "mensagens_en-us";
 	public static string [] textosMensagens = null;
 
 	// Som e música

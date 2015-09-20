@@ -1,0 +1,251 @@
+Hello World!
+Score your first point.
+placar
+1
+5
+
+Get a A+.
+Join a +10 with -10.
+fundir
+10 -10
+5
+
+Shelly Likes.
+Have exactly 73 points on the score.
+exatoplacar
+73
+5
+
+A hundred, no hundred!
+Join a +100 and a -100.
+fundir
+100 -100
+10
+
+A hundred without greens.
+Made a +100 or a -100, whitout multipliers.
+naomultiplicar
+100
+10
+
+This is Sparta!
+Made a +300.
+bloco
+300
+10
+
+This was Sparta!
+Join a +300 with a -300.
+fundir
++300 -300
+10
+
+Absolute Zero.
+Made the block -273.
+bloco
+-273
+10
+
+Error, page not found!
+Have exactly 404 points on the score.
+exatoplacar
+404
+10
+
+Less evil...
+Made the block -666.
+bloco
+-666
+15
+
+Killa thousand!
+Join a +1000 with a -1000.
+fundir
+1000 -1000
+15
+
+1 Kilobyte of pure evil.
+Make a block 1024.
+absolutobloco
+1024
+15
+
+Breaking the sound barrier.
+Join a +1224 with a -1224.
+fundir
+1224 -1224
+15
+
+Have the world ended?
+Made a block +2012.
+bloco
+2012
+15
+
+Are you lost?
+Place the blocks 4, 8, 15, 16, 23 e 42 on the screen at the same time.
+varios
+4 8 15 16 23 42
+20
+
+2048 without win.
+Join a +2048 with a -2048.
+fundir
+2048 -2048
+20
+
+Back to the future!
+Place the blocks 5, 11 e 1995 on the screen at the same time.
+varios
+5 11 1995
+20
+
+Finding the answer.
+Play for 42 minutes.
+tempo
+2520
+20
+
+I WANNA ROCK!
+Place the blocks 13, 7, 1985 on the screen at the same time.
+varios
+13 7 1985
+20
+
+So many answers...
+Get ten 42 blocks on the screen at the same time.
+varios
+42 42 42 42 42 42 42 42 42 42
+25
+
+Towel day.
+Place the blocks 25, 5 e 2001 on the screen at the same time.
+varios
+25 5 2001
+25
+
+A new day!
+Join a +2359 with a -2359.
+fundir
+2359 -2359
+25
+
+Over 9000!
+made a block with absolute value higher than 9000.
+maiorque
+9000
+25
+
+Slumdog Millionaire?
+Have exactly 1000000 points on the score.
+exatoplacar
+1000000
+25
+
+1 Megabyte.
+Made a block 1 048 576.
+absolutobloco
+1048576
+25
+
+There are no more dinosaurs.
+Join a +65 000 with a -65 000.
+fundir
+65000 -65000
+25
+
+Reaching better sales game.
+Have exactly 143000000 points on the score.
+exatoplacar
+143000000
+25
+
+Back from the moon!
+Made a block -384 400.
+bloco
+-384400
+25
+
+Faster than light.
+Get a score higher than 299 792 458 points.
+placar
+299762459
+30
+
+Patience.
+Made any 123 456 789 block.
+absolutobloco
+123456789
+30
+
+To infinite and not so beyond...
+Made a 1bi block.
+absolutobloco
+1000000000
+30
+
+Hate you score!
+Reset the score once.
+zerar
+1
+30
+
+Many victories.
+Get ten 2048 blocks on the screen at the same time.
+varios
+2048 2048 2048 2048 2048 2048 2048 2048 2048 2048
+30
+
+So close to the sun.
+Join a +149 600 000 with a -149 600 000.
+fundir
+149600000 -149600000
+35
+
+Infinite comes to one.
+Join a 1bi with a 999 999 999 to get an 1.
+indiferentefundir
+1000000000 999999999 1
+35
+
+The score will reset...
+Have exactly 999999999 points on the score.
+exatoplacar
+999999999
+35
+
+You play a lot...
+Play a total of 10 hours.
+tempo
+36000
+40
+
+MISSION COMPLETE!
+Complete all the missions.
+completarmissoes
+1
+50
+
+Number 23.
+Reset the score 23 times.
+zerar
+23
+50
+
+Challenge Accepted!
+Made a +999999999 or a -999999999, whitout multipliers.
+naomultiplicar
+999999999
+55
+
+The answer!
+Reset the score 42 times.
+zerar
+42
+70
+
+You're the champion, my friend.
+Complete all achievements.
+resposta
+1
+5

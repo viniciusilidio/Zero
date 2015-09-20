@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Interface\Interface.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\missoes.txt">
     <Files>
-      <File FileName="Assets\Scripts\Interface\Interface.cs" Line="162" Column="2" />
-      <File FileName="Assets\Scripts\Gerenciamento\GerJogo.cs" Line="282" Column="14" />
+      <File FileName="Assets\Resources\missoes.txt" Line="1" Column="1" />
+      <File FileName="Assets\Resources\realizacoes.txt" Line="1" Column="1" />
+      <File FileName="Assets\Resources\mensagens.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

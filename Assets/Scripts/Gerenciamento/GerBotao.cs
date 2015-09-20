@@ -312,7 +312,7 @@ public class GerBotao : MonoBehaviour
 		}
 
 		//Utilidade.DebugMensagem ("Soltou");
-		GerJogo.SoltarObjeto(GetComponent<GerBotao>());
+		GerJogo.SoltarObjeto(this);
 	}
 
 	public void Brilhar()
